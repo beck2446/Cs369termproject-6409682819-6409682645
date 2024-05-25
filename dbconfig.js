@@ -1,14 +1,22 @@
 const sql = require('mssql');
 
 const config = {
-    user: 'username', 
-    password: 'password',
+    user: 'cs369',
+    password: 'cs369@tu',
     server: 'ALLUN33D\\SQLEXPRESS',
-    database: 'onlineShop',
+    database: 'northwind',
     options: {
         encrypt: false,
-        enableArithAbort: true
-    }
+        enableArithAbort: true,
+        trustServerCertificate: true
+    },
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    connectionTimeout: 30000,
+    requestTimeout: 30000
 };
 
 const poolPromise = new sql.ConnectionPool(config)

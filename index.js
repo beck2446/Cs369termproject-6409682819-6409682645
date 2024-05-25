@@ -4,6 +4,10 @@ const { sql, poolPromise } = require('./dbconfig');
 const app = express();
 const port = 3000;
 
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
+// API endpoint to get products
 app.get('/api/products', async (req, res) => {
     try {
         const pool = await poolPromise;
@@ -14,19 +18,7 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
-app.get('/api/products/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const pool = await poolPromise;
-        const result = await pool.request()
-            .input('productId', sql.Int, id)
-            .query('SELECT * FROM Products WHERE ProductID = @productId');
-        res.json(result.recordset[0]);
-    } catch (err) {
-        res.status(500).send({ message: err.message });
-    }
-});
-
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
