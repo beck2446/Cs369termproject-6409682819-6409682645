@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce Frontend</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
     <header>
-        <h1>E-commerce Website</h1>   
-    </header>
-
-    <div>    
+        <h1>E-commerce Website</h1>
         <button id="add-product-button">Add Product</button>
-    </div>
-    
-    <div id="product-list" class="product-list"></div>
+    </header>
+    <div id="products" class="product-container"></div>
+
 
     <script src="app.js"></script>
+    <script>
+        document.getElementById('add-product-button').onclick = function () {
+            window.location.href = 'add-product.html';
+        };
+    </script>
 </body>
 </html>
