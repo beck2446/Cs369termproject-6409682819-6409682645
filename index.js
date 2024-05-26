@@ -4,7 +4,7 @@ const { sql, poolPromise } = require('./dbconfig');
 const app = express();
 const port = 3000;
 
-//parse JSON bodies
+//Parse JSON bodies
 app.use(express.json());
 
 // Serve static files from the 'public' directory

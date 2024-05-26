@@ -4,7 +4,7 @@ const config = {
     user: 'cs369',
     password: 'cs369@tu',
     server: 'ALLUN33D\\SQLEXPRESS',
-    database: 'northwind',
+    database: 'onlineShop',
     options: {
         encrypt: false,
         enableArithAbort: true,

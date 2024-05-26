@@ -11,12 +11,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             productDetail.innerHTML = `
                 <img src="https://via.placeholder.com/400" alt="${product.ProductName}">
                 <h2>${product.ProductName}</h2>
-                <p><strong>Price:</strong> $${product.UnitPrice}</p>
-                <p><strong>Quantity Per Unit:</strong> ${product.QuantityPerUnit}</p>
-                <p><strong>Units In Stock:</strong> ${product.UnitsInStock}</p>
-                <p><strong>Units On Order:</strong> ${product.UnitsOnOrder}</p>
-                <p><strong>Reorder Level:</strong> ${product.ReorderLevel}</p>
-                <p><strong>Discontinued:</strong> ${product.Discontinued ? 'Yes' : 'No'}</p>
+                <p><strong>Price:</strong> $${product.Price}</p>
+                <p><strong>Quantity:</strong> ${product.Quantity}</p>
+                <p><strong>Category:</strong> ${product.Category}</p>
             `;
         } catch (error) {
             console.error('Error fetching product details:', error);
