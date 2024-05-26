@@ -9,14 +9,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const productCard = document.createElement('div');
             productCard.className = 'product-card';
             productCard.innerHTML = `
-                <img src="https://via.placeholder.com/200" alt="${product.ProductName}">
-                <h2>${product.ProductName}</h2>
-                <p class="price">$${product.UnitPrice}</p>
+                <a href="product.html?id=${product.ProductID}">
+                    <img src="https://via.placeholder.com/200" alt="${product.ProductName}">
+                    <h2>${product.ProductName}</h2>
+                    <p class="price">$${product.UnitPrice}</p>
+                </a>
             `;
-
-            productCard.addEventListener('click', () => {
-                alert(`You clicked on ${product.ProductName}`);
-            });
 
             productList.appendChild(productCard);
         });
