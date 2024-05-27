@@ -5,53 +5,11 @@ body {
     padding: 0;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-}
-
 h1 {
-    margin: 0;
-}
-
-button {
-    background-color: #4CAF50;
-    border: none;
+    background-color: #282c34;
     color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#add-product-button{
-margin: 10px;
-}
-
-form {
-    text-align: right;
-    margin-left: auto;
-}
-
-input[type="text"],
-input[type="password"],
-button[type="submit"] {
-    padding: 10px;
-    margin: 5px;
-    width: 200px;
-    display: block;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding: 20px;
+    
 }
 
 .product-container {
@@ -85,5 +43,15 @@ button[type="submit"] {
     margin: 0 0 10px 0;
 }
 
+#add-product-button {
+    padding: 0.5rem 1rem;
+    background-color: #555555;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 
+#add-product-button:hover {
+    background-color: #555555;
+}
 

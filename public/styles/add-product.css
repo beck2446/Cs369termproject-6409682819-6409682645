@@ -1,6 +1,6 @@
 header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem;
     background-color: #f8f9fa;
@@ -8,7 +8,7 @@ header {
 }
 
 header h1 {
-    padding-left: 20px;
+    margin: 0;
 }
 
 form {
@@ -33,18 +33,14 @@ form input {
     border-radius: 0.25rem;
 }
 
-form button:hover {
-    background-color: #66655555;
+form button {
+    padding: 0.5rem 1rem;
+    background-color: #525252;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
-form button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
+form button:hover {
+    background-color: #66655555;
 }
