@@ -1,6 +1,18 @@
-document.getElementById('add-product-button').onclick = function () {
-    window.location.href = 'add-product.html';
-};
+document.getElementById('add-product-button').addEventListener('click', async () => {
+    try {
+        const response = await fetch('/api/isAuthenticated');
+        const data = await response.json();
+
+        if (data.authenticated) {
+            window.location.href = '/add-product.html';
+        } else {
+            alert('You must be logged in to add a product.');
+            window.location.href = '/index.html';
+        }
+    } catch (error) {
+        console.error('Error checking authentication:', error);
+    }
+});
 
 async function fetchProducts() {
     try {
@@ -19,7 +31,7 @@ function displayProducts(products) {
         productCard.className = 'product-card';
 
         const productImage = document.createElement('img');
-        productImage.src = 'https://via.placeholder.com/150'; 
+        productImage.src = 'https://via.placeholder.com/150'; // Replace with actual image path or URL if available
         productImage.alt = product.ProductName;
 
         const productName = document.createElement('h2');

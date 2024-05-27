@@ -8,6 +8,11 @@
 </head>
 <body>
     <header>
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
         <h1>E-commerce Website</h1>
         <button id="add-product-button">Add Product</button>
     </header>
@@ -15,10 +20,6 @@
 
 
     <script src="app.js"></script>
-    <script>
-        document.getElementById('add-product-button').onclick = function () {
-            window.location.href = 'add-product.html';
-        };
-    </script>
+
 </body>
 </html>

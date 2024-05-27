@@ -1,14 +1,98 @@
 const express = require('express');
+const session = require('express-session');
+
+const cors = require('cors');
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+
 const { sql, poolPromise } = require('./dbconfig');
 
 const app = express();
 const port = 3000;
 
-//Parse JSON bodies
+//Middleware Configuration
 app.use(express.json());
-
-// Serve static files from the 'public' directory
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
+app.use(cors());
+
+// Session setup
+app.use(session({
+    secret: 'mySecretKey',
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport setup
+passport.use(new LocalStrategy(
+    async (username, password, done) => {
+        try {
+            const pool = await poolPromise;
+            const result = await pool.request()
+                .input('username', sql.NVarChar, username)
+                .query('SELECT * FROM Users WHERE Username = @username');
+            const user = result.recordset[0];
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            const match = await bcrypt.compare(password, user.PasswordHash);
+            if (!match) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, user);
+        } catch (err) {
+            console.error('Error in LocalStrategy:', err);
+            return done(err);
+        }
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user.UserID);
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request()
+            .input('UserID', sql.Int, id)
+            .query('SELECT * FROM Users WHERE UserID = @UserID');
+        done(null, result.recordset[0]);
+    } catch (err) {
+        console.error('Error in deserializeUser:', err);
+        done(err);
+    }
+});
+
+// Login route
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/index.html',
+    failureRedirect: '/index.html',
+    failureFlash: true // Optional: use connect-flash for flash messages
+}));
+
+// Middleware to check authentication
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/index.html');
+}
+
+// Check if the user is authenticated
+app.get('/api/isAuthenticated', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ authenticated: true });
+    } else {
+        res.json({ authenticated: false });
+    }
+});
 
 // API endpoint to get all products
 app.get('/api/products', async (req, res) => {
