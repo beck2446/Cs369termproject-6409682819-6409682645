@@ -1,9 +1,15 @@
 const sql = require('mssql');
 
 const config = {
+    //user: 'cs369',
+    //password: 'cs369@tu',
+    //server: 'ALLUN33D\\SQLEXPRESS',
+    //port: 1433, // Replace with your port number
+    //database: 'onlineShop',
+
     user: 'cs369',
-    password: 'cs369@tu',
-    server: 'ALLUN33D\\SQLEXPRESS',
+    password: '123456',
+    server: 'LAPTOP-P9NN5OHO\\SQLEXPRESS',
     port: 1433, // Replace with your port number
     database: 'onlineShop',
     options: {
