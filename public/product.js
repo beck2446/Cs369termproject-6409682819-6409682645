@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const product = await response.json();
 
             productDetail.innerHTML = `
-                <img src="https://via.placeholder.com/400" alt="${product.ProductName}">
+                <img src="/${product.ImagePath}" alt="${product.ProductName}" style="max-width: 400px;">
                 <h2>${product.ProductName}</h2>
                 <p><strong>Price:</strong> $${product.Price}</p>
                 <p><strong>Quantity:</strong> ${product.Quantity}</p>

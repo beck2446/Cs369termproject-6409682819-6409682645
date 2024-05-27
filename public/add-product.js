@@ -1,20 +1,12 @@
 document.getElementById('add-product-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const product = {
-        ProductName: document.getElementById('productName').value,
-        Category: document.getElementById('category').value,
-        Quantity: document.getElementById('quantity').value,
-        Price: document.getElementById('price').value
-    };
+    const formData = new FormData(this);
 
     try {
-        const response = await fetch('http://localhost:3000/api/products', {
+        const response = await fetch('http://localhost:3000/upload', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(product)
+            body: formData
         });
 
         if (response.ok) {

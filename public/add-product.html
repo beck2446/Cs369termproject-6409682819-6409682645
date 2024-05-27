@@ -10,19 +10,22 @@
     <header>
         <h1>Add New Product</h1>
     </header>
-    <form id="add-product-form">
+    <form id="add-product-form" enctype="multipart/form-data">
         <label for="productName">Product Name:</label>
-        <input type="text" id="productName" name="productName" required>
+        <input type="text" id="productName" name="ProductName" required>
 
         <label for="category">Category:</label>
-        <input type="text" id="category" name="categoryID" required>
+        <input type="text" id="category" name="Category" required>
 
         <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" step="1" required>
+        <input type="number" id="quantity" name="Quantity" step="1" required>
 
         <label for="price">Price:</label>
-        <input type="number" id="price" name="price" step="0.01" required>
-
+        <input type="number" id="price" name="Price" step="1" required>
+        
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        
         <button type="submit">Add Product</button>
     </form>
 

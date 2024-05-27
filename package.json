@@ -1,5 +1,5 @@
 {
-  "name": "cs369",
+  "name": "cs368",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,6 +15,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "mssql": "^10.0.2",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
   }

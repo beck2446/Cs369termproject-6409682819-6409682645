@@ -1,22 +1,21 @@
 const express = require('express');
 const session = require('express-session');
-
 const cors = require('cors');
-
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-
+const multer = require('multer');
+const path = require('path');
 const { sql, poolPromise } = require('./dbconfig');
 
 const app = express();
 const port = 3000;
 
-//Middleware Configuration
+// Middleware Configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
+app.use('/uploads', express.static('uploads'));
 app.use(cors());
 
 // Session setup
@@ -72,26 +71,83 @@ passport.deserializeUser(async (id, done) => {
 
 // Login route
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/index.html',
+    successRedirect: '/add-product.html',
     failureRedirect: '/index.html',
     failureFlash: true // Optional: use connect-flash for flash messages
 }));
 
-// Middleware to check authentication
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/index.html');
-}
-
-// Check if the user is authenticated
+// Check if user is authenticated
 app.get('/api/isAuthenticated', (req, res) => {
     if (req.isAuthenticated()) {
         res.json({ authenticated: true });
     } else {
         res.json({ authenticated: false });
     }
+});
+
+
+// File upload configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('image'), async (req, res) => {
+    const { ProductName, Category, Price, Quantity } = req.body;
+    const imagePath = req.file.path; // Path to the uploaded file
+
+    try {
+        const pool = await poolPromise;
+        await pool.request()
+            .input('ProductName', sql.NVarChar, ProductName)
+            .input('Category', sql.NVarChar, Category)
+            .input('Price', sql.Int, Price)
+            .input('Quantity', sql.Int, Quantity)
+            .input('ImagePath', sql.NVarChar, imagePath)
+            .query(`
+                INSERT INTO Products (ProductName, Category, Price, Quantity, ImagePath)
+                VALUES (@ProductName, @Category, @Price, @Quantity, @ImagePath);
+            `);
+        res.status(201).send('Product created successfully with image');
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send({ message: 'Error creating product' });
+    }
+});
+
+// Route to serve product images
+app.get('/product-image/:id', async (req, res) => {
+    const productId = req.params.id;
+
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request()
+            .input('ProductID', sql.Int, productId)
+            .query('SELECT ImagePath FROM Products WHERE ProductID = @ProductID');
+        
+        const imagePath = result.recordset[0]?.ImagePath;
+        if (imagePath) {
+            res.sendFile(path.resolve(imagePath));
+        } else {
+            res.status(404).send('Image not found');
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send({ message: 'Error retrieving image' });
+    }
+});
+
+// Centralized Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send({ message: 'Something went wrong!' });
 });
 
 // API endpoint to get all products
