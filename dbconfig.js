@@ -8,10 +8,17 @@ const config = {
     //database: 'onlineShop',
 
     user: 'cs369',
-    password: '123456',
-    server: 'LAPTOP-P9NN5OHO\\SQLEXPRESS',
+    password: '12345678',
+    server: 'database1.c924oamkeplt.us-east-1.rds.amazonaws.com',
     port: 1433, // Replace with your port number
     database: 'onlineShop',
+
+    //user: 'cs369',
+    //password: '123456',
+    //server: 'LAPTOP-P9NN5OHO\\SQLEXPRESS',
+    //port: 1433, // Replace with your port number
+    //database: 'onlineShop',
+
     options: {
         encrypt: false,
         enableArithAbort: true,

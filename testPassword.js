@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 // Generate a salt to use in hashing
 const saltRounds = 10; // This determines the complexity of the hashing algorithm
 const plainTextPassword = 'password123'; // Replace this with the desired password for your test user
+//const plainTextPassword = 'password111';
 
 // Hash the password
 bcrypt.hash(plainTextPassword, saltRounds, (err, hash) => {

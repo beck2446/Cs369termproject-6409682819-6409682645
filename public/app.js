@@ -38,7 +38,7 @@ function displayProducts(products) {
         productName.textContent = product.ProductName;
 
         const productPrice = document.createElement('p');
-        productPrice.textContent = `$${product.Price}`;
+        productPrice.textContent = `${product.Price} Bath`;
 
         productCard.appendChild(productImage);
         productCard.appendChild(productName);
