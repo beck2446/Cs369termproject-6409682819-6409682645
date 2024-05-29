@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const flash = require('express-flash');
 const cors = require('cors');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -27,6 +28,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // Passport setup
 passport.use(new LocalStrategy(
@@ -131,8 +133,8 @@ app.get('/product-image/:id', async (req, res) => {
         const result = await pool.request()
             .input('ProductID', sql.Int, productId)
             .query('SELECT ImagePath FROM Products WHERE ProductID = @ProductID');
-        
-        const imagePath = result.recordset[0]?.ImagePath;
+        let imagePath = result.recordset[0]?.ImagePath;
+        imagePath = imagePath.replace(/\\/g, '/');
         if (imagePath) {
             res.sendFile(path.resolve(imagePath));
         } else {
@@ -207,6 +209,11 @@ app.delete('/api/products/:id', async (req, res) => {
         res.status(500).send({ message: err.message });
     }
 });
+
+app.get('/flash', (req, res) => {
+    req.flash('info', 'Flash message added!');
+    res.redirect('/');
+  });
 
 // Start the server
 app.listen(port, () => {
